@@ -109,18 +109,14 @@ def calculating_average(index):
     average_all_season = make_predicitons_for_all_season(index)
 
     total_average = (average_last_three + average_last_five + average_all_season)/3
-    print(int(total_average))
+    return int(total_average)
 
 
-def oief():
+def create_final_predictions_list():
     final_list = []
     for i in range(11):
         final_list.append(calculating_average(i))
     return final_list
-
-
-list1 = oief()
-print(list1)
 
 
 def main():
@@ -131,3 +127,8 @@ def main():
     # Turns user data from a string to an integer
     team_results = [int(num) for num in data]
     apply_team_results(team_results, "team1results")
+    print("Updating predictions page for next game...")
+    apply_team_results(create_final_predictions_list(), "team1prediction")
+
+
+main()

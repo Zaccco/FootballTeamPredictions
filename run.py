@@ -25,7 +25,7 @@ def get_team_results():
         print("Enter the total yardages from the teams latest game")
         print("The input should consist of 11 numbers, seperated by a comma\n")
 
-        user_str = input("Enter the game numbers here: \n")
+        user_str = input("Enter the game numbers here:\n")
 
         results_data = user_str.split(",")
 

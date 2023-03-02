@@ -23,10 +23,9 @@ def get_team_results():
     """
     while True:
         print("Enter the total yardages from the teams latest game")
-        print("The input should consist of 11 numbers, seperated by a comma")
-        print("Here's an example of a syntax input: 1,2,3,4,5,6,7,8,9,10,11\n")
+        print("The input should consist of 11 numbers, seperated by a comma\n")
 
-        user_str = input("Enter here: \n")
+        user_str = input("Enter the game numbers here: \n")
 
         results_data = user_str.split(",")
 
@@ -53,14 +52,79 @@ def validate_input(inputs):
     return True
 
 
-def apply_team_results(data, sheet):
+def apply_team_results(results, sheet):
     """
-    Inputs the user input into the google sheet that we expect
+    Inputs the user input into the google sheet that we expect,
+    for example team1results, team2results and so on...
     """
     update_sheet = SHEET.worksheet(sheet)
-    update_sheet.append_row(data)
+    update_sheet.append_row(results)
+    print(f"{sheet} updated successfully!")
 
 
-data = get_team_results()
-# Turns user data from a string to an integer
-team_results = [int(num) for num in data]
+def make_predicitons_for_last_three_games(num):
+    prediction_page = SHEET.worksheet("team1results").get_all_values()
+    last_three_rows = prediction_page[-3:]
+    prediction_list = []
+
+    i = 0
+    while i <= 2:
+        prediction_list.append(int(last_three_rows[i][num]))
+        i += 1
+    average = sum(prediction_list) / 3
+    average_last_three = int(average)
+    return average_last_three
+
+
+def make_predicitons_for_last_five_games(num):
+    prediction_page = SHEET.worksheet("team1results").get_all_values()
+    last_five_rows = prediction_page[-5:]
+    prediction_list = []
+
+    i = 0
+    while i <= 4:
+        prediction_list.append(int(last_five_rows[i][num]))
+        i += 1
+    average = sum(prediction_list) / 5
+    average_last_five = int(average)
+    return average_last_five
+
+
+def make_predicitons_for_all_season(num):
+    prediction_page = SHEET.worksheet("team1results").get_all_values()
+    all_season = prediction_page[1:]
+    prediction_list = []
+
+    for i in range(len(all_season)):
+        prediction_list.append(int(all_season[i][num]))
+    
+    average = sum(prediction_list) / len(all_season)
+    average_all_season = int(average)
+    return average_all_season
+
+
+def calculating_average(index):
+    average_last_three = make_predicitons_for_last_three_games(index)
+    average_last_five = make_predicitons_for_last_five_games(index)
+    average_all_season = make_predicitons_for_all_season(index)
+
+    total_average = (average_last_three + average_last_five + average_all_season)/3
+    print(int(total_average))
+
+def oief():
+    final_list = []
+    for i in range(0,11):
+        final_list.append(calculating_average(i))
+    return final_list
+
+list1 = oief()
+print(list1)
+
+def main():
+    """
+    Function that runs all other functions
+    """
+    data = get_team_results()
+    # Turns user data from a string to an integer
+    team_results = [int(num) for num in data]
+    apply_team_results(team_results, "team1results")

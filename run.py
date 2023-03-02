@@ -97,7 +97,7 @@ def make_predicitons_for_all_season(num):
 
     for i in range(len(all_season)):
         prediction_list.append(int(all_season[i][num]))
-    
+
     average = sum(prediction_list) / len(all_season)
     average_all_season = int(average)
     return average_all_season
@@ -111,14 +111,17 @@ def calculating_average(index):
     total_average = (average_last_three + average_last_five + average_all_season)/3
     print(int(total_average))
 
+
 def oief():
     final_list = []
-    for i in range(0,11):
+    for i in range(11):
         final_list.append(calculating_average(i))
     return final_list
 
+
 list1 = oief()
 print(list1)
+
 
 def main():
     """

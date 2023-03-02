@@ -63,6 +63,9 @@ def apply_team_results(results, sheet):
 
 
 def make_predicitons_for_last_three_games(num):
+    """
+    Takes the average number from the last three games in each category
+    """
     prediction_page = SHEET.worksheet("team1results").get_all_values()
     last_three_rows = prediction_page[-3:]
     prediction_list = []
@@ -77,6 +80,9 @@ def make_predicitons_for_last_three_games(num):
 
 
 def make_predicitons_for_last_five_games(num):
+    """
+    Takes the average number from the last five games in each category
+    """
     prediction_page = SHEET.worksheet("team1results").get_all_values()
     last_five_rows = prediction_page[-5:]
     prediction_list = []
@@ -91,6 +97,10 @@ def make_predicitons_for_last_five_games(num):
 
 
 def make_predicitons_for_all_season(num):
+    """
+    Takes the average number from all season, or all the numbers inputed
+    by the user to the spreadsheet in each category
+    """
     prediction_page = SHEET.worksheet("team1results").get_all_values()
     all_season = prediction_page[1:]
     prediction_list = []
@@ -104,6 +114,11 @@ def make_predicitons_for_all_season(num):
 
 
 def calculating_average(index):
+    """
+    Calculates the average number out of the 3 prior functions to get a
+    predicted number in each category for the upcoming game, taking into
+    consideration both short term and long term form.
+    """
     average_last_three = make_predicitons_for_last_three_games(index)
     average_last_five = make_predicitons_for_last_five_games(index)
     average_all_season = make_predicitons_for_all_season(index)
@@ -113,6 +128,10 @@ def calculating_average(index):
 
 
 def create_final_predictions_list():
+    """
+    Creates a list out of the calculating average function so that it is
+    appendable to the spreadsheet.
+    """
     final_list = []
     for i in range(11):
         final_list.append(calculating_average(i))
